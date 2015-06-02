@@ -1,1 +1,1 @@
-URL: https://hayate1996.github.io/swift_presen/#/
+URL: https://hayate1996.github.io/swift-animation-presentation/#/
