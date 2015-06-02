@@ -61,156 +61,275 @@
 							勉強会を開いています。
 						</script>
 					</section>
+					<section data-markdown>
+						<script type="text/template">
+							#今日の目標
+
+							- アニメーションがどう実現されるのかを知る
+							- アニメーションを実装できるようになる
+							- 複数のアニメーションやジェスチャーを使ってバリエーションを増やす
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+						#iOSアニメーションについて
+						アニメーションはどういうところで使われているのか
+
+						- Animation Tutorial
+						- Loading, Progress
+						    - Download, 再生, 増加、減少
+						- メニューリスト
+						    - side panel、展開
+						- 画面の遷移
+						    - フェードイン
+						- ゲーム
+						</script>
+					</section>
 				</section>
 				<section data-transition='convex'>
 					<section data-markdown>
 					<script type="text/template">
 						###Agenda
 
-						1. 前回のおさらい
-						2. ViewController
-						3. Gestrue Event
-						4. Closure
+						1. 基本的なアニメーション
+						2. UIViewアニメーション / CoreAnimation
+						3. Gestureと組み合わせてみる
+						4. まとめ
 					</script>
 					</section>
 				</section>
 				<section data-transition='convex'>
 					<section data-markdown>
 						<script type="text/template">
-							##1. 前回のおさらい
+							##1. 基本的なアニメーション
+							<br/>
+							今回は基本的なアニメーションとして
+							<br/>４つのアニメーションを中心にやっていきます
 
-							- Variable Type
-							- View
-							- Function
+							- 拡大
+							- 縮小
+							- 消失
+							- 移動
 						</script>
 					</section>
 					<section data-markdown>
 						<script type="text/template">
-							##Variable Type
-							<br>
-							変数を定義する場合２つのパターンがある
-							<pre><code style="font-size:140%; line-height: 130%;"> /* 変数を扱う場合 */
-							 var : 中の値を変化させることができる
-							    var num = 123
-							    num = num + 10
-
-							 /* 定数を扱う場合 */
-							 let : 一度値を入れると変更できない
-							    let num = 123
-							    // num = num + 10 <= Error
-							</code></pre>
+							##アニメーションを実装する方法
+							<br/>
+							アニメーションを実装する方法はいくつかありますが<br/>
+							UIViewのクラスメソッドを使う方法がとても簡単です。
 						</script>
 					</section>
 
 					<section data-markdown>
 						<script type="text/template">
-							##Variable Type
-							<br>
-							```swift
-							/* Int:数値, Double, Float:小数値 */
-							var number: Int = 123
-							var number: Double = 3.14
+							##アニメーションを実装する方法
+							<br/>
+							UIViewアニメーション
 
-							/* String:文字列 */
-							var text: String = "This is String"
+							- UIViewにデフォルトで提供されるアニメーション機構
+							- 拡大、縮小、回転、移動などをシンプルに実装できる
 
-							/* Array, Dictionary:数値 */
-							var array: Array = Array(1, 2, 3)
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							##アニメーションを実装する方法
+							<br/>
+
+							UIViewには次のようなクラスメソッドが定義されています。
+
+							```
+								// アニメーションだけを行うメソッド
+								UIView.animationWithDuration:animation:
+
+								// アニメーションを実行した後の処理も記述できるメソッド
+								UIView.animationWithDuration:animation:completionBlock:
 							```
 
-							<br>
-							Swiftは型推論なので、型を省略できます
-							```swift
-							/* 型を省略 */
-							var array = Array(1, 2, 3)
-							```
+							<br/>
+							どれくらいの時間(duration)で<br/>
+							どのようなアニメーション(animation)を実行し<br/>
+							終わった後に最後の処理(completionBlock)を実行する<br/>
 						</script>
 					</section>
 
+
 					<section data-markdown>
 						<script type="text/template">
-							##View
+							###拡大・縮小
 
-							- 画像やテキスト、図形などのオブジェクトを表示
-							- UIKitというFrameworkを呼び出して使う
+							```swift:拡大（縮小）
 
-							<br>
+	// 100 x 100 のビューを生成
+	var _animationView:UIView! = UIView(frame: CGRectMake(0, 0, 100, 100))
 
-							**UIKit.framework**の**View**オブジェクト
-							> UIView, UIImageView, UITextView, UITextField, UILabel, UIButton, etc...
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							##View
+	// ビューの色を青に設定
+	_animationView.background = UIColor.blueColor()
 
-							100x100、背景色がブルーのビューのサンプルコード
+	self.view.addSubview(_animationView)
 
-							```swift
-							// サンプルコード
-							// サイズを生成 (x, y, width, height): x,yは表示位置
-							var rect    = CGRectMake(0, 0, 100, 100)
-							// 色を生成
-							var bgColor = UIColor.blueColor()
+	// アニメーション
+	UIView.animateWithDuration(1.0, animations: { () -> Void in
+	    // 横幅を２倍に設定
+	    _animationView.frame.size.width = 200
+	    // 高さを２倍に設定
+	    _animationView.frame.size.height = 200
+	})
 
-							// 生成したサイズを使って、ビューを生成
-							var view    = UIView(frame: rect)
-							// ビューの背景に色を設定
-							view.backgroundColor = gbColor
 							```
 
 						</script>
 					</section>
+
 					<section data-markdown>
 						<script type="text/template">
-							##Function
-							<br>
-							関数の定義
+							###拡大・縮小
 
-							```swift
-							/* 戻り値なし */
-							func aMethod(){...}
+							![swift-animation-large.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/5e468415-8a17-b274-e4d0-90003992ccc7.gif)
 
-							/* 戻り値あり */
-							func aMethod() -> 戻り値型 {
-								...
-								return 戻り値
-							}
 
-							/* 引数渡し */
-							func aMethod(int a:Int, int b:Int) -> 戻り値型 {
-								...
-								return 戻り値
-							}
-							```
 						</script>
 					</section>
+
 					<section data-markdown>
 						<script type="text/template">
-							##Function
-							<br>
+							###消失
 
-							関数の使用例
-							```swift
-							/* "Hello, World"を出力 */
-							func printHelloWorld(){
-								println("Hello, World")
-							}
+							```swift:消失
 
-							printHelloWorld() // => "Hello, World"が出力される
+	// 100 x 100 のビューを生成
+	var _animationView:UIView! = UIView(frame: CGRectMake(0, 0, 100, 100))
 
+	// ビューの色を青に設定
+	_animationView.background = UIColor.blueColor()
 
-							/* 引数の和 */
-							func sum(var a:Int, var b:Int) -> Int {
-								var ans = a + b
-								return ans
-							}
+	self.view.addSubview(_animationView)
 
-							var ans = sum(5, 10) // => ans: 15
+	// アニメーション
+	UIView.animateWithDuration(1.0, animations: { () -> Void in
+			// ビューを透明に
+			_animationView.alpha = 0.0
+			// 親ビューからビューを削除 (add <-> remove)
+			_animationView.removeFromSuperview()
+	})
 
 							```
+
 						</script>
 					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###消失
+
+							![swift-animation-delete-add.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/c9bfadeb-7e70-633a-3ea0-a5133e0bde4e.gif)
+
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###移動
+
+							```swift:移動
+
+	// 100 x 100 のビューを生成
+	var _animationView:UIView! = UIView(frame: CGRectMake(0, 0, 100, 100))
+
+	// ビューの色を青に設定
+	_animationView.background = UIColor.blueColor()
+
+	self.view.addSubview(_animationView)
+
+	// アニメーション
+	UIView.animateWithDuration(1.0, animations: { () -> Void in
+			// ビューを左端から右端に移動
+			_animationView.frame.origin = CGPointMake(self.view.frame.width - animationAreaWidth, 0)
+	})
+
+							```
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###移動
+
+							![swift-animation-move.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/f6c0344c-3f4a-2722-02f4-78fdd4192388.gif)
+
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###CoreAnimationとは？
+
+							<br/>
+
+							UIViewのメソッドでできるアニメーションには限界があります。<br/>
+							CoreAnimationは、より多くのアニメーションを演出できます。
+
+							- 消失
+							- 拡大・縮小
+							- 移動
+							- 変形
+							- 回転
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###メリット
+
+							<br/>
+
+							UIViewのアニメーションでは扱えないlayerアニメーションや<br/>
+							ベジェのアニメーションも実装でき、カスタム性が高いです。
+
+							- ベジェ
+							- カスタマイズ性が高い
+
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							##課題１ - 初級
+
+							Large・Small・Delete・Moveの４つのボタンを追加して<br/>
+							拡大・縮小・消失・移動するアニメーションを実装しましょう
+
+							![swift-animation-four-type.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/54b013d7-feaa-c608-83a5-d20a1cb0f91b.gif)
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							##課題１ - 中級
+
+							CoreAnimationを使ってそれぞれの<br/>
+							アニメーションに回転を組み合わせてみましょう
+							![swift-animation-four-type-plus-rotate.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/6fa7cf04-766a-964a-eda4-8a767c1a73ac.gif)
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							##課題１ - 上級
+
+							以下のような連続アニメーションを実装してみましょう
+							![swift-animation-high.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/979b20b6-16d6-09e0-4bfc-15c70f8cf73e.gif)
+						</script>
+					</section>
+
 					<section data-markdown>
 						<script type="text/template">
 						##前回使った資料
