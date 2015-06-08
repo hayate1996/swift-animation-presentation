@@ -159,6 +159,35 @@
 
 					<section data-markdown>
 						<script type="text/template">
+							##Example
+
+							```swift:UIKitAnimation
+
+　　// あらかじめ変化前の状態を設定しておく (from)
+
+	// 100 x 100 のビューを生成
+	var _animationView:UIView! = UIView(frame: CGRectMake(0, 0, 100, 100))
+
+	// ビューの色を青に設定
+	_animationView.backgroundColor = UIColor.blueColor()
+
+	self.view.addSubview(_animationView)
+
+	// アニメーション
+	UIView.animateWithDuration(1.0, animations: { () -> Void in
+		// ここにアニメーションの変化後の状態を設定する (to)
+		// 200x200のサイズにアニメーションさせる
+		_animationView.frame.size = CGSizeMake(200, 200)
+	})
+
+							```
+
+						</script>
+					</section>
+
+
+					<section data-markdown>
+						<script type="text/template">
 							###拡大・縮小
 
 							```swift:拡大（縮小）
@@ -167,7 +196,7 @@
 	var _animationView:UIView! = UIView(frame: CGRectMake(0, 0, 100, 100))
 
 	// ビューの色を青に設定
-	_animationView.background = UIColor.blueColor()
+	_animationView.backgroundColor = UIColor.blueColor()
 
 	self.view.addSubview(_animationView)
 
@@ -204,7 +233,7 @@
 	var _animationView:UIView! = UIView(frame: CGRectMake(0, 0, 100, 100))
 
 	// ビューの色を青に設定
-	_animationView.background = UIColor.blueColor()
+	_animationView.backgroundColor = UIColor.blueColor()
 
 	self.view.addSubview(_animationView)
 
@@ -241,14 +270,15 @@
 	var _animationView:UIView! = UIView(frame: CGRectMake(0, 0, 100, 100))
 
 	// ビューの色を青に設定
-	_animationView.background = UIColor.blueColor()
+	_animationView.backgroundColor = UIColor.blueColor()
 
 	self.view.addSubview(_animationView)
 
 	// アニメーション
 	UIView.animateWithDuration(1.0, animations: { () -> Void in
 			// ビューを左端から右端に移動
-			_animationView.frame.origin = CGPointMake(self.view.frame.width - animationAreaWidth, 0)
+			var dx = self.view.frame.width - animationAreaWidth
+			_animationView.frame.origin = CGPointMake(dx, 0)
 	})
 
 							```
@@ -263,6 +293,77 @@
 							![swift-animation-move.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/f6c0344c-3f4a-2722-02f4-78fdd4192388.gif)
 
 
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							##アフィン変換
+
+							<br/>回転や上下反転するアニメーションは
+							<br/>アフィン変換(CGAffineTransformクラス)を利用します
+							<br/><br/>
+
+							- CGAffineTransformScale (倍加)
+							- CGAffineTransformRotate (回転)
+							- CGAffineTransformInvert (上下反転)
+							- CGAffineTransformConcat (組み合わせ)
+							- CGAffineTransformTranslate (移動量)
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###回転
+
+							```swift:回転
+	// アニメーション
+	UIView.animateWithDuration(1.0, animations: { () -> Void in
+
+		// 180度回転するtransformの生成// 180度回転するtransformの生成
+		// * 回転角度(radian)を生成する関数(120度の場合): self.DegreesToRadians(120)
+		// * RotateTransformの生成: CGAffineTransformMakeRotation(radian)
+		var radian      = self.DegreesToRadians(180.0)
+		var transform   = CGAffineTransformMakeRotation(radian)
+
+		// animationViewにtransformを設定
+		self.animationView.transform = transform
+
+	})
+
+							```
+							ラジアン
+							```swift:ラジアン
+	func DegreesToRadians(var degree:Double) -> CGFloat
+	{
+			return CGFloat(degree * M_PI / 180.0)
+	}
+
+							```
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###回転
+
+							![swift-animation-rotate.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/b2a9b10c-7f25-ed4b-86e8-5d2f9c0eabfc.gif)
+
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###Samle
+
+							####拡大
+							[Large Sample](https://github.com/hayate1996/swift-animation-large-sample) - [Answer](https://github.com/hayate1996/swift-animation-large-sample/tree/answer)
+
+							####回転
+							[Rotate Sample](https://github.com/hayate1996/swift-animation-rotate-sample) - [Answer](https://github.com/hayate1996/swift-animation-rotate-sample/tree/answer)
 						</script>
 					</section>
 
@@ -296,6 +397,15 @@
 							- ベジェ
 							- カスタマイズ性が高い
 
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###参考資料
+
+							[Swiftでアニメーション CoreAnimation編 - Qiita](http://qiita.com/web_chiro/items/0ad8f8ef5bc23de21e1e)
 
 						</script>
 					</section>
