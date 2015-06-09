@@ -16,6 +16,16 @@
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<style type="text/css">
+		  .reveal h1,
+		  .reveal h2,
+		  .reveal h3,
+		  .reveal h4,
+		  .reveal h5,
+		  .reveal h6 {
+		    text-transform: none;
+		  }
+		</style>
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -93,9 +103,10 @@
 						##Agenda
 
 						1. 基本的なアニメーション
-						2. UIViewアニメーション / CoreAnimation
-						3. Gestureと組み合わせてみる
-						4. まとめ
+						2. UIKitアニメーション
+						3. CoreAnimation
+						4. Gestureを組み合わせる
+						5. まとめ
 					</script>
 					</section>
 				</section>
@@ -107,10 +118,7 @@
 							今回は基本的なアニメーションとして
 							<br/>４つのアニメーションを中心にやっていきます
 
-							- 拡大
-							- 縮小
-							- 消失
-							- 移動
+							拡大・縮小・消失・移動
 						</script>
 					</section>
 					<section data-markdown>
@@ -118,7 +126,19 @@
 							##アニメーションを実装する方法
 							<br/>
 							アニメーションを実装する方法はいくつかありますが<br/>
-							UIViewのクラスメソッドを使う方法がとても簡単です。
+							UIKitのクラスメソッドを使う方法がとても簡単です。
+						</script>
+					</section>
+				</section>
+				<section data-transition='convex'>
+					<section data-markdown>
+						<script type="text/template">
+							##2. UIKitアニメーション
+							<br/>
+
+							- UIKitにデフォルトで提供されるアニメーション機構
+							- 拡大・縮小・回転・移動などを簡単・直感的に実装できる
+
 						</script>
 					</section>
 
@@ -126,20 +146,8 @@
 						<script type="text/template">
 							##アニメーションを実装する方法
 							<br/>
-							UIViewアニメーション
 
-							- UIViewにデフォルトで提供されるアニメーション機構
-							- 拡大、縮小、回転、移動などをシンプルに実装できる
-
-						</script>
-					</section>
-
-					<section data-markdown>
-						<script type="text/template">
-							##アニメーションを実装する方法
-							<br/>
-
-							UIViewには次のようなクラスメソッドが定義されています。
+							UIKitには次のようなクラスメソッドが定義されています。
 
 							```
 								// アニメーションだけを行うメソッド
@@ -357,7 +365,7 @@
 
 					<section data-markdown>
 						<script type="text/template">
-							###Samle
+							###SAMPLE
 
 							####拡大
 							[Large Sample](https://github.com/hayate1996/swift-animation-large-sample) - [Answer](https://github.com/hayate1996/swift-animation-large-sample/tree/answer)
@@ -366,21 +374,18 @@
 							[Rotate Sample](https://github.com/hayate1996/swift-animation-rotate-sample) - [Answer](https://github.com/hayate1996/swift-animation-rotate-sample/tree/answer)
 						</script>
 					</section>
-
+				</section>
+				<section data-transition='convex'>
 					<section data-markdown>
 						<script type="text/template">
-							###CoreAnimationとは？
+							##3. CoreAnimation
 
 							<br/>
 
 							UIViewのメソッドでできるアニメーションには限界があります。<br/>
 							CoreAnimationは、より多くのアニメーションを演出できます。
 
-							- 消失
-							- 拡大・縮小
-							- 移動
-							- 変形
-							- 回転
+							消失・拡大・縮小・移動・変形・回転
 
 						</script>
 					</section>
@@ -391,12 +396,77 @@
 
 							<br/>
 
-							UIViewのアニメーションでは扱えないlayerアニメーションや<br/>
-							ベジェのアニメーションも実装でき、カスタム性が高いです。
+							UIKitのアニメーションでは扱えないプロパティやベジェを<br/>
+							使ったアニメーションができるなど、カスタム性が高いです。<br/>
+							<br/>
 
 							- ベジェ
 							- カスタマイズ性が高い
+							- 動作が軽い
 
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###CABasicAnimationクラス
+
+							<br/>
+
+							CoreAnimationクラスの中で最も基礎的なクラスです。<br/>
+							今回はこのクラスを使っていきます。<br/>
+
+							<br/>
+							以下のような値を設定します
+
+							- 変化させるプロパティの前後
+							- IntervalやDelay設定
+							- アニメーション方法
+							- etc..
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###Example
+
+							例えば、ビューの角丸サイズを変える<br/>
+							アニメーションはこのような感じです。<br/>
+
+							```swift
+    // cornerRadiusを変更するアニメーション
+    var cornerRadiusAnimation = CABasicAnimation(keyPath: "cornerRadius")
+
+    // cornerRadius を 0 -> 100 に変化させるよう設定
+    cornerRadiusAnimation.fromValue = 0
+    cornerRadiusAnimation.toValue = 100
+
+    // アニメーション
+    cornerRadiusAnimation.duration = 2.0
+
+    // アニメーションが終了した時の状態を維持する
+    cornerRadiusAnimation.removedOnCompletion = false
+    cornerRadiusAnimation.fillMode = kCAFillModeForwards
+
+    // アニメーションが終了したらanimationDidStopを呼び出す
+    cornerRadiusAnimation.delegate = self
+
+    // アニメーションの追加
+    animationView.layer.addAnimation(cornerRadiusAnimation, forKey: "cornerRadiusAnimation")
+							```
+
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							###角丸
+
+							![2015-06-08 05_37_43.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/28c5fd89-9ab3-2c6d-22ce-0700f7475ff0.gif)
+
+							角丸を変えるアニメーションはLayerプロパティを使用します。<br/>
+							Layerプロパティの変化はUIKitアニメーションではできません。<br/>
 
 						</script>
 					</section>
@@ -409,13 +479,14 @@
 
 						</script>
 					</section>
-
+				</section>
+				<section data-transition='convex'>
 					<section data-markdown>
 						<script type="text/template">
 							##課題１ - 初級
 
-							Large・Small・Delete・Moveの４つのボタンを追加して<br/>
-							拡大・縮小・消失・移動するアニメーションを実装しましょう
+							Large・Small・Delete・Moveボタンを使って<br/>
+							拡大・縮小・消失・移動するアニメーションを実装しましょう<br/>
 
 							![swift-animation-four-type.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/54b013d7-feaa-c608-83a5-d20a1cb0f91b.gif)
 						</script>
@@ -425,8 +496,8 @@
 						<script type="text/template">
 							##課題１ - 中級
 
-							CoreAnimationを使ってそれぞれの<br/>
-							アニメーションに回転を組み合わせてみましょう
+							Rotateアニメーションを使ってそれぞれの<br/>
+							アニメーションに回転を組み合わせてみましょう<br/>
 							![swift-animation-four-type-plus-rotate.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/6fa7cf04-766a-964a-eda4-8a767c1a73ac.gif)
 						</script>
 					</section>
@@ -435,7 +506,8 @@
 						<script type="text/template">
 							##課題１ - 上級
 
-							以下のような連続アニメーションを実装してみましょう
+							以下のような連続アニメーションを実装してみましょう。<br/>
+							一部CoreAnimationを利用しています。<br/>
 							![swift-animation-high.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/979b20b6-16d6-09e0-4bfc-15c70f8cf73e.gif)
 						</script>
 					</section>
@@ -451,9 +523,8 @@
 				<section data-transition='convex'>
 					<section data-markdown>
 						<script type="text/template">
-							##ジェスチャーを使ったアニメーション
+							##4. ジェスチャーを使ったアニメーション
 							<br />
-							ジェスチャーのおさらい
 
 							- ジェスチャーとは？
 							- ジェスチャーを実装するには
@@ -469,18 +540,6 @@
 							- 画像を拡大、ゲームでアイテムをタップするときの指の動き
 							- 指の動きに対して、対応するジェスチャーがある
 							- Viewにジェスチャーをするとイベントが発生する
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							##ジェスチャーとは？
-							<br>
-
-							- Viewを管理(表示・配置・アニメーションなど)
-							- 受け取ったデータに合わせてTextやViewを表示・操作
-							- ViewControllerは自身にもViewを持っている
-
-							<img src="./img/vc_image.png" style="border: none; background-color: transparent; width: 22%">
 						</script>
 					</section>
 					<section data-markdown>
