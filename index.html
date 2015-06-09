@@ -88,11 +88,8 @@
 
 						- Animation Tutorial
 						- Loading, Progress
-						    - Download, 再生, 増加、減少
 						- メニューリスト
-						    - side panel、展開
 						- 画面の遷移
-						    - フェードイン
 						- ゲーム
 						</script>
 					</section>
@@ -186,8 +183,11 @@
 		// ここにアニメーションの変化後の状態を設定する (to)
 		// 200x200のサイズにアニメーションさせる
 		_animationView.frame.size = CGSizeMake(200, 200)
-	})
-
+	}){ (isTrue) -> Void in
+		// アニメーション終了後に呼ばれるブロック
+		// アニメーションビューの初期化
+    self.configureAnimationView()
+  }
 							```
 
 						</script>
@@ -214,7 +214,10 @@
 	    _animationView.frame.size.width = 200
 	    // 高さを２倍に設定
 	    _animationView.frame.size.height = 200
-	})
+	}){ (isTrue) -> Void in
+		// アニメーションビューの初期化
+    self.configureAnimationView()
+  }
 
 							```
 
@@ -251,7 +254,10 @@
 			_animationView.alpha = 0.0
 			// 親ビューからビューを削除 (add <-> remove)
 			_animationView.removeFromSuperview()
-	})
+	}){ (isTrue) -> Void in
+		// アニメーションビューの初期化
+    self.configureAnimationView()
+  }
 
 							```
 
@@ -287,7 +293,10 @@
 			// ビューを左端から右端に移動
 			var dx = self.view.frame.width - animationAreaWidth
 			_animationView.frame.origin = CGPointMake(dx, 0)
-	})
+	}){ (isTrue) -> Void in
+		// アニメーションビューの初期化
+    self.configureAnimationView()
+  }
 
 							```
 
@@ -338,7 +347,10 @@
 		// animationViewにtransformを設定
 		self.animationView.transform = transform
 
-	})
+	}){ (isTrue) -> Void in
+		// アニメーションビューの初期化
+    self.configureAnimationView()
+  }
 
 							```
 							ラジアン
@@ -487,6 +499,7 @@
 
 							Large・Small・Delete・Moveボタンを使って<br/>
 							拡大・縮小・消失・移動するアニメーションを実装しましょう<br/>
+							[Easy Templete](https://github.com/hayate1996/swift-animation-easy)<br/>
 
 							![swift-animation-four-type.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/54b013d7-feaa-c608-83a5-d20a1cb0f91b.gif)
 						</script>
@@ -497,7 +510,7 @@
 							##課題１ - 中級
 
 							Rotateアニメーションを使ってそれぞれの<br/>
-							アニメーションに回転を組み合わせてみましょう<br/>
+							アニメーションに180度回転を組み合わせてみましょう<br/>
 							![swift-animation-four-type-plus-rotate.gif](https://qiita-image-store.s3.amazonaws.com/0/35442/6fa7cf04-766a-964a-eda4-8a767c1a73ac.gif)
 						</script>
 					</section>
@@ -520,6 +533,16 @@
 						</script>
 					</section>
 				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					##解答
+					[課題1 初級](https://github.com/hayate1996/swift-animation-easy/tree/answer)
+					[課題1 中級](https://github.com/hayate1996/swift-animation-rotate/tree/answer)
+					</script>
+				</section>
+			</section>
+
 				<section data-transition='convex'>
 					<section data-markdown>
 						<script type="text/template">
@@ -653,6 +676,15 @@
 						</script>
 					</section>
 				</section>
+
+				<section data-markdown>
+					<script type="text/template">
+					##解答
+					[課題2 初級](https://github.com/hayate1996/swift-animation-easy/tree/answer)
+					[課題2 中級](https://github.com/hayate1996/swift-animation-rotate/tree/answer)
+					</script>
+				</section>
+			</section>
 
 				<section data-transition='convex'>
 					<section data-markdown>
