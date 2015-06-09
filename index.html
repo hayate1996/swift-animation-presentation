@@ -555,42 +555,43 @@
 
 						</script>
 					</section>
+
 					<section data-markdown>
 						<script type="text/template">
 							##ジェスチャーの追加
 							<br>
 
-							タップすると発生する処理をViewControllerに実装します <br>
-							ここでは、*"tapGesture"*というメソッドを定義します
-
-							```swift
-							var view1: UIView!
-
-							func tapGesture(gestureRecognizer: UITapGestureRecognizer){
-									// タップviewの色を変える (Red <=> Blue)
-									if(view1.backgroundColor  == .redColor()) {
-											view1.backgroundColor = .blueColor()
-									}
-									else {
-											view1.backgroundColor = .redColor()
-									}
-							}
-							```
-						</script>
-					</section>
-					<section data-markdown>
-						<script type="text/template">
-							##ジェスチャーの追加
-							<br>
-
-							ジェスチャーを生成します。<br>
+							スワイプ用のジェスチャーを生成します。<br>
 							Selectorクラスを使って呼び出すメソッドを指定します。
 
 							```swift
-							var aSelector = Selector("tapGesture:")
-							var tapRecognizer = UITapGestureRecognizer(target: self, action: aSelector)
+	// スワイプジェスチャーの生成。ジェスチャーイベント発生時に"callSwipeLeftAnimation"関数をコールする
+	var swipeGestureRecognizerLeft = UISwipeGestureRecognizer(target: self, action: Selector("leftSwipeGesture"))
+
+	// 左方向のスワイプを設定する
+	swipeGestureRecognizerLeft.direction = .Left
+
+	// rectビューにスワイプジェスチャーを追加
+	rect.addGestureRecognizer(swipeGestureRecognizerLeft)
 							```
 
+						</script>
+					</section>
+
+					<section data-markdown>
+						<script type="text/template">
+							##ジェスチャーアクションの追加
+							<br>
+
+							スワイプすると発生する処理をViewControllerに実装します <br>
+							ここでは、*"leftSwipeGesture"*というメソッドを定義します
+
+							```swift
+							func leftSwipeGesture(){
+								// rectビューの中心が(100, 100)の位置になるようにビューを移動する
+								self.rect.center = CGPointMake(100, 100)
+							}
+							```
 						</script>
 					</section>
 
@@ -606,13 +607,7 @@
 							- *LongPress*
 						</script>
 					</section>
-					<section data-markdown>
-						<script type="text/template">
-							##ジェスチャーとアニメーションを<br/>組み合わせる
-							<br>
 
-						</script>
-					</section>
 					<section data-markdown>
 						<script type="text/template">
 							##資料
