@@ -537,48 +537,6 @@
 
 					<section data-markdown>
 						<script type="text/template">
-							##ジェスチャーの追加
-							<br>
-							ViewControllerに処理を追加すると以下のようになります。<br>
-							ソースコードは下にスクロールします。
-
-							```swift
-							override func viewDidLoad() {
-									super.viewDidLoad()
-
-									self.view.backgroundColor = .whiteColor()
-
-									// ジェスチャーの生成
-									var aSelector = Selector("tapGesture:")
-									var tapRecognizer = UITapGestureRecognizer(target: self, action: aSelector))
-
-									// ビューの生成
-									view1 = UIView(frame: CGRectMake(30, 30, 100, 100))
-									view1.backgroundColor = .redColor()
-									// ジェスチャーの追加
-									view1.addGestureRecognizer(tapRecognizer)
-									self.view.addSubview(view1)
-							}
-
-							// ジェスチャーイベント処理
-
-							var view1: UIView!
-
-							func tapGesture(gestureRecognizer: UITapGestureRecognizer){
-									// タップviewの色を変える (Red <=> Blue)
-									if(view1.backgroundColor  == .redColor()) {
-											view1.backgroundColor = .blueColor()
-									}
-									else {
-											view1.backgroundColor = .redColor()
-									}
-							}
-							```
-						</script>
-					</section>
-
-					<section data-markdown>
-						<script type="text/template">
 							##ジェスチャーの種類
 
 							- *Tap*
@@ -593,14 +551,6 @@
 						<script type="text/template">
 							##ジェスチャーとアニメーションを<br/>組み合わせる
 							<br>
-
-							Xcodeプロジェクトには最初からViewControllerが存在。
-
-							なので、プロジェクトを実行すれば画面を表示できます。
-
-							<br>
-
-							> ビルド方法：Command + Shift + r
 
 						</script>
 					</section>
