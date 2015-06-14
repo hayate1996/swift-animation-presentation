@@ -263,10 +263,10 @@
 	UIView.animateWithDuration(1.0, animations: { () -> Void in
 			// ビューを透明に
 			_animationView.alpha = 0.0
-			// 親ビューからビューを削除 (add <-> remove)
-			_animationView.removeFromSuperview()
 	}){ (isTrue) -> Void in
 		// アニメーションビューの初期化
+		// 親ビューからビューを削除 (add <-> remove)
+		_animationView.removeFromSuperview()
     self.configureAnimationView()
   }
 
